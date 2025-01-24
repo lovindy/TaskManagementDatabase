@@ -1,12 +1,13 @@
-﻿CREATE PROCEDURE sp_GetTasksByList
-    @ListId UNIQUEIDENTIFIER
+﻿ALTER PROCEDURE sp_GetTasksByList
+    @ListId UNIQUEIDENTIFIER,
+    @UserId UNIQUEIDENTIFIER
 AS
 BEGIN
     SET NOCOUNT ON;
 
     SELECT
         t.TaskId,
-        t.ListId,  -- Include ListId to match the TaskItem class
+        t.ListId,
         t.Title,
         t.Description,
         t.DueDate,
@@ -25,5 +26,11 @@ BEGIN
         ) AS Assignees
     FROM Tasks t
     WHERE t.ListId = @ListId
+      AND EXISTS (
+          SELECT 1
+          FROM UserLists ul
+          WHERE ul.ListId = t.ListId
+            AND ul.UserId = @UserId
+      )
     ORDER BY t.Position;
 END;
