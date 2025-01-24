@@ -1,6 +1,5 @@
-﻿ALTER PROCEDURE sp_GetTasksByList
-    @ListId UNIQUEIDENTIFIER,
-    @UserId UNIQUEIDENTIFIER
+﻿CREATE PROCEDURE sp_GetTasksByList
+    @ListId UNIQUEIDENTIFIER
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -26,11 +25,5 @@ BEGIN
         ) AS Assignees
     FROM Tasks t
     WHERE t.ListId = @ListId
-      AND EXISTS (
-          SELECT 1
-          FROM UserLists ul
-          WHERE ul.ListId = t.ListId
-            AND ul.UserId = @UserId
-      )
     ORDER BY t.Position;
 END;

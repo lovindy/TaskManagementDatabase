@@ -1,4 +1,4 @@
-﻿CREATE   PROCEDURE sp_CreateUser
+﻿CREATE PROCEDURE sp_CreateUser
     @Username VARCHAR(255),
     @PasswordHash VARCHAR(MAX),
     @UserId UNIQUEIDENTIFIER OUTPUT
